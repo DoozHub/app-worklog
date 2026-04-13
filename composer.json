@@ -1,0 +1,28 @@
+{
+    "name": "dooz/worklog",
+    "description": "Dooz Worklog Package",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Akshay Joshi",
+            "email": "akshay@example.com"
+        }
+    ],
+    "require": {
+        "php": "^8.2",
+        "illuminate/support": "^10.0|^11.0|^12.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Dooz\\Worklog\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Dooz\\Worklog\\WorklogServiceProvider"
+            ]
+        }
+    }
+}
