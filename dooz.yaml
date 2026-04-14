@@ -1,0 +1,47 @@
+name: dooz-worklog
+display_name: Worklog
+description: Time tracking and work logging for teams
+version: 1.0.0
+min_core_version: 1.0.0
+category: productivity
+author: Dooz Team
+pricing_type: subscription
+type: app
+
+dependencies:
+  required: []
+  optional: [dooz-todo, dooz-quicky]
+
+permissions:
+  - name: worklog.view
+    display_name: View Worklog
+    description: View time entries and reports
+    default_roles: [admin, manager, user]
+  - name: worklog.manage
+    display_name: Manage Worklog
+    description: Create, edit, and delete time entries
+    default_roles: [admin, manager]
+
+navigation:
+  - label: Worklog
+    route: dooz-worklog.index
+    icon: clock
+    sort: 150
+    permissions: [worklog.view]
+
+ai_tools: []
+
+events:
+  emitted: []
+  listened: []
+
+widgets: []
+
+pricing_plans:
+  - name: starter
+    price: 0
+    currency: USD
+    interval: month
+    seat_limit: 5
+    trial_period_days: 14
+    features: [worklog.view, worklog.manage]
