@@ -10,18 +10,19 @@ use Dooz\Worklog\Http\Controllers\ClientController;
 use Dooz\Worklog\Http\Controllers\ReportController;
 use Dooz\Worklog\Http\Controllers\InvoiceController;
 
+// Public: liveness probe only. It returns a constant payload, reads no data
+// and changes nothing, so monitoring can call it without a token. The host
+// lists it as its only ungated worklog route (dooz-core config/dooz.php).
 Route::prefix('api/worklog')->middleware(['api'])->group(function () {
-    // Health Check
     Route::get('/health', function () {
         return response()->json(['status' => 'ok', 'service' => 'Worklog']);
-    })->withoutMiddleware(['auth:sanctum']);
+    });
+});
 
-    // Test routes (for debugging - remove in production)
-    Route::get('/test-clients', [ClientController::class, 'index'])->withoutMiddleware(['auth:sanctum']);
-    Route::post('/test-clients', [ClientController::class, 'store'])->withoutMiddleware(['auth:sanctum']);
-    Route::get('/test-projects', [ProjectController::class, 'index'])->withoutMiddleware(['auth:sanctum']);
-    Route::get('/test-tasks', [TaskController::class, 'index'])->withoutMiddleware(['auth:sanctum']);
-
+// Every other worklog API route requires an authenticated user. 'auth:api' is
+// the host's API guard (Laravel Passport bearer tokens), the same guard the
+// sibling first-party packages use and the Quicky clients already send.
+Route::prefix('api/worklog')->middleware(['api', 'auth:api'])->group(function () {
     // Dashboard
     Route::get('/dashboard', [WorklogController::class, 'dashboard']);
 
